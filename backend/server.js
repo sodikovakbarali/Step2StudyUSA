@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'favicon.ico')));
 
 // Routes
-const studentRoutes = require('./routes/students');
+const studentRoutes = require('../routes/students');
 app.use('/api/students', studentRoutes);
 
 // Start the server
