@@ -1,9 +1,0 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
-    url('https://images.unsplash.com/photo-1605648968372-23f9e6a16b20?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
-  height: 90vh;
-}
