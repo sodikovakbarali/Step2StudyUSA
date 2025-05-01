@@ -6,25 +6,45 @@ const UniversitySchema = new mongoose.Schema({
     required: true
   },
   location: {
-    state: String,
-    city: String
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  academicLevels: [{
+    type: String,
+    required: true
+  }],
+  fieldsOfStudy: [{
+    type: String,
+    required: true
+  }],
+  tuition: {
+    type: Number,
+    required: true
+  },
+  size: {
+    type: String,
+    required: true
+  },
+  ranking: {
+    type: Number
   },
   requirements: {
-    minGPA: Number,
-    minSAT: Number,
-    minIELTS: Number
+    gpa: Number,
+    satScore: Number,
+    ieltsScore: Number
   },
-  tuition: {
-    international: Number,
-    domestic: Number
-  },
-  acceptanceRate: Number,
-  financialAid: Boolean,
-  applicationDeadlines: {
-    early: Date,
-    regular: Date
-  },
-  programs: [String]
+  scholarships: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Scholarship'
+  }],
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('University', UniversitySchema);

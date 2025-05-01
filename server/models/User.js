@@ -1,4 +1,3 @@
-js
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -15,21 +14,24 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  academicProfile: {
-    gpa: Number,
-    satScore: Number,
-    ieltsScore: Number,
-    interests: [String],
-    budget: Number
+  academicLevel: {
+    type: String,
+    required: true
+  },
+  interests: {
+    type: [String],
+    default: []
   },
   savedUniversities: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'University'
   }],
-  savedScholarships: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Scholarship'
-  }],
+  preferences: {
+    location: String,
+    tuitionRange: String,
+    size: String,
+    ranking: String
+  },
   date: {
     type: Date,
     default: Date.now

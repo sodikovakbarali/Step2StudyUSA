@@ -1,0 +1,138 @@
+.forum-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.forum-container h1 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.create-thread-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.create-thread-section h2 {
+  color: #6e8efb;
+  margin-bottom: 1.5rem;
+}
+
+.create-thread-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.create-thread-section input,
+.create-thread-section textarea {
+  padding: 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.create-thread-section textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.create-thread-section button {
+  background-color: #6e8efb;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.create-thread-section button:hover {
+  background-color: #5a7de8;
+}
+
+.threads-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.threads-section h2 {
+  color: #6e8efb;
+  margin-bottom: 1.5rem;
+}
+
+.threads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.thread-card {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid #6e8efb;
+}
+
+.thread-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.thread-header h3 {
+  color: #2c3e50;
+  margin: 0;
+}
+
+.author {
+  color: #6e8efb;
+  font-weight: 600;
+}
+
+.thread-meta {
+  display: flex;
+  gap: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.view-thread-button {
+  background-color: #6e8efb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-thread-button:hover {
+  background-color: #5a7de8;
+}
+
+@media (max-width: 768px) {
+  .forum-container {
+    padding: 1rem;
+  }
+
+  .thread-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .thread-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+} 

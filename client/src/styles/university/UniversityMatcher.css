@@ -1,0 +1,196 @@
+.matcher-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.matcher-container h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.filters-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.filters-section h2 {
+  color: #6e8efb;
+  margin-bottom: 1.5rem;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.filter-group select {
+  padding: 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #6e8efb;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.apply-button, .reset-button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.apply-button {
+  background-color: #6e8efb;
+  color: white;
+}
+
+.reset-button {
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  border: 1px solid #e0e0e0;
+}
+
+.apply-button:hover {
+  background-color: #5a7de8;
+}
+
+.reset-button:hover {
+  background-color: #e9ecef;
+}
+
+.results-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.results-section h2 {
+  color: #6e8efb;
+  margin-bottom: 1.5rem;
+}
+
+.loading, .no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.universities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.university-card {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid #6e8efb;
+}
+
+.university-card h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.match-score {
+  color: #6e8efb;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.university-details {
+  margin-bottom: 1rem;
+}
+
+.university-details p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.university-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.view-details-button, .save-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-details-button {
+  background-color: #6e8efb;
+  color: white;
+}
+
+.save-button {
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  border: 1px solid #e0e0e0;
+}
+
+.view-details-button:hover {
+  background-color: #5a7de8;
+}
+
+.save-button:hover {
+  background-color: #e9ecef;
+}
+
+@media (max-width: 768px) {
+  .matcher-container {
+    padding: 1rem;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+  }
+
+  .apply-button, .reset-button {
+    width: 100%;
+  }
+
+  .universities-grid {
+    grid-template-columns: 1fr;
+  }
+} 
