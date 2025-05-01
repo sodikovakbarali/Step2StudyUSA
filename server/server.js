@@ -19,6 +19,6 @@ app.use('/api/universities', require('./routes/universities'));
 app.use('/api/forum', require('./routes/forum'));
 app.use('/api/scholarships', require('./routes/scholarships'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4500;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
