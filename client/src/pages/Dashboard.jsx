@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Dashboard.css';
+import '../styles/shared/Headings.css';
 
 const Dashboard = () => {
   const [matches, setMatches] = useState([]);
@@ -18,10 +19,10 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1>Your Dashboard</h1>
+      <h1 className="page-heading">Your Dashboard</h1>
       
       <section className="matches-section">
-        <h2>Your Top Matches</h2>
+        <h2 className="section-heading">Your Top Matches</h2>
         <div className="matches-grid">
           {matches.map(match => (
             <div key={match.id} className="match-card">
@@ -36,7 +37,7 @@ const Dashboard = () => {
       </section>
 
       <section className="saved-section">
-        <h2>Saved Universities</h2>
+        <h2 className="section-heading">Saved Universities</h2>
         {savedUniversities.length > 0 ? (
           <div className="saved-grid">
             {savedUniversities.map(university => (
@@ -52,7 +53,7 @@ const Dashboard = () => {
       </section>
 
       <section className="preferences-section">
-        <h2>Your Preferences</h2>
+        <h2 className="section-heading">Your Preferences</h2>
         <button className="edit-preferences-button">Edit Preferences</button>
       </section>
     </div>

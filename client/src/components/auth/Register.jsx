@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/auth/Register.css';
+import '../../styles/shared/Headings.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -97,7 +98,7 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Create Your UniMatch Account</h2>
+        <h2 className="page-heading">Create an Account</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Full Name</label>

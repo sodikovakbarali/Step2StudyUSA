@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Forum.css';
+import '../styles/shared/Headings.css';
 
 const Forum = () => {
   const [threads, setThreads] = useState([
@@ -43,10 +44,10 @@ const Forum = () => {
 
   return (
     <div className="forum-container">
-      <h1>University Forum</h1>
+      <h1 className="page-heading">University Forum</h1>
       
       <div className="create-thread-section">
-        <h2>Start a New Discussion</h2>
+        <h2 className="section-heading">Start a New Discussion</h2>
         <form onSubmit={handleCreateThread}>
           <input
             type="text"
@@ -66,7 +67,7 @@ const Forum = () => {
       </div>
 
       <div className="threads-section">
-        <h2>Recent Discussions</h2>
+        <h2 className="section-heading">Recent Discussions</h2>
         <div className="threads-list">
           {threads.map(thread => (
             <div key={thread.id} className="thread-card">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/profile/UserProfile.css';
+import '../../styles/shared/Headings.css';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({
@@ -80,7 +81,7 @@ const UserProfile = () => {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <h1>Your Profile</h1>
+        <h1 className="page-heading">Your Profile</h1>
         <button
           onClick={() => setIsEditing(!isEditing)}
           className="edit-button"
@@ -90,7 +91,7 @@ const UserProfile = () => {
       </div>
 
       <div className="profile-section">
-        <h2>Personal Information</h2>
+        <h2 className="section-heading">Personal Information</h2>
         <div className="profile-grid">
           <div className="profile-field">
             <label>Name</label>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/auth/Login.css';
+import '../../styles/shared/Headings.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -53,7 +54,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Login to UniMatch</h2>
+        <h2 className="page-heading">Login to UniMatch</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
