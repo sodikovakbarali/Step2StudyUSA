@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/auth/Login.css';
 import '../../styles/shared/Headings.css';
 
@@ -10,7 +11,7 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,12 +41,9 @@ const Login = () => {
 
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call
-      // const response = await loginUser(formData);
-      // handle successful login
-      navigate('/dashboard');
+      await login(formData);
     } catch (error) {
-      setErrors({ submit: error.message });
+      setErrors({ submit: error.response?.data?.msg || 'An error occurred during login' });
     } finally {
       setIsLoading(false);
     }
