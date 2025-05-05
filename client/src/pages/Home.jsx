@@ -6,11 +6,14 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="hero-section">
-        <h1 className="hero-title">Welcome to UniMatch</h1>
-        <p className="hero-subtitle">Find your perfect university match and connect with like-minded students</p>
-        <div className="cta-buttons">
-          <Link to="/matcher" className="cta-button primary">Find Your Match</Link>
-          <Link to="/register" className="cta-button secondary">Join Our Community</Link>
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <h1 className="hero-title">Welcome to UniMatch</h1>
+          <p className="hero-subtitle">Find your perfect university match and connect with like-minded students</p>
+          <div className="cta-buttons">
+            <Link to="/matcher" className="cta-button primary">Find Your Match</Link>
+            <Link to="/register" className="cta-button secondary">Join Our Community</Link>
+          </div>
         </div>
       </div>
 

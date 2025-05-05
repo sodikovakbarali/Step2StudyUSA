@@ -4,33 +4,57 @@
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat;
   color: white;
   padding: 6rem 2rem;
   text-align: center;
   border-radius: 0 0 30px 30px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44, 62, 80, 0.55);
+  z-index: 1;
+  border-radius: 0 0 30px 30px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 350px;
+  min-width: 300px;
+  max-width: 700px;
+  text-align: left;
+  margin: 0 auto;
 }
 
 .hero-title {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.18);
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
   max-width: 600px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 2rem 0;
   line-height: 1.6;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .cta-buttons {
   display: flex;
   gap: 1.5rem;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 2.5rem;
 }
 
@@ -56,6 +80,23 @@
 .cta-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-image-wrapper {
+  flex: 1 1 350px;
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  object-fit: cover;
+  aspect-ratio: 4/3;
 }
 
 .features-section {
@@ -118,19 +159,19 @@
   line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
-  }
-  
-  .cta-buttons {
+@media (max-width: 900px) {
+  .hero-section {
     flex-direction: column;
-    align-items: center;
-  }
-
-  .cta-button {
-    width: 100%;
-    max-width: 300px;
     text-align: center;
+    padding: 3rem 1rem;
+    gap: 2rem;
+    min-height: 350px;
+  }
+  .hero-content {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .cta-buttons {
+    justify-content: center;
   }
 }

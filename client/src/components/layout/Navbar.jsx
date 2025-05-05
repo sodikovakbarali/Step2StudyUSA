@@ -1,45 +1,68 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-<<<<<<< Updated upstream
-import '../../styles/shared/Navbar.css';
-=======
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
->>>>>>> Stashed changes
+import '../../styles/shared/Navbar.css';
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setShowDropdown(false);
+    navigate('/');
+  };
+
+  const handleAccountClick = (e) => {
+    e.preventDefault();
+    if (isAuthenticated) {
+      navigate('/account');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <nav className="navbar">
-<<<<<<< Updated upstream
       <div className="navbar-logo">UniMatch</div>
       <div className="navbar-links">
         <Link to="/">Home</Link>
         <Link to="/matcher">University Matcher</Link>
         <Link to="/forum">Forum</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-      </div>
-=======
-      <h1>UniMatch</h1>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/matcher">University Matcher</Link></li>
-        <li><Link to="/forum">Forum</Link></li>
+        <Link to="#" className="account-link" onClick={handleAccountClick}>Account</Link>
         {isAuthenticated ? (
-          <>
-            <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/profile">Profile</Link></li>
-            <li><button onClick={logout} className="logout-button">Logout</button></li>
-          </>
+          <div className="user-menu">
+            <div 
+              className="user-profile" 
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              <span className="user-name">{user?.name || 'User'}</span>
+              <div className="profile-icon">
+                <i className="fas fa-user"></i>
+              </div>
+            </div>
+            {showDropdown && (
+              <div className="dropdown-menu">
+                <Link to="/dashboard" onClick={() => setShowDropdown(false)}>
+                  <i className="fas fa-tachometer-alt"></i> Dashboard
+                </Link>
+                <Link to="/profile" onClick={() => setShowDropdown(false)}>
+                  <i className="fas fa-user-circle"></i> Profile
+                </Link>
+                <button onClick={handleLogout} className="logout-button">
+                  <i className="fas fa-sign-out-alt"></i> Logout
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/register">Register</Link></li>
+            <Link to="/login" className="auth-link">Login</Link>
+            <Link to="/register" className="auth-link register">Register</Link>
           </>
         )}
-      </ul>
->>>>>>> Stashed changes
+      </div>
     </nav>
   );
 };

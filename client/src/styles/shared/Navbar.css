@@ -19,6 +19,9 @@
   font-weight: 800;
   color: #2c3e50;
   letter-spacing: 1px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .navbar-links {
@@ -26,6 +29,7 @@
   gap: 2rem;
   flex-wrap: wrap;
   min-width: 0;
+  align-items: center;
 }
 
 .navbar-links a {
@@ -35,11 +39,149 @@
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.3s ease;
   white-space: nowrap;
 }
 
 .navbar-links a:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* User Menu Styles */
+.user-menu {
+  position: relative;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+  background: rgba(118, 75, 162, 0.1);
+}
+
+.user-name {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.profile-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 0.5rem;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.dropdown-menu a, .dropdown-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.dropdown-menu a:hover, .dropdown-menu button:hover {
+  background: rgba(118, 75, 162, 0.1);
+}
+
+.logout-button {
+  color: #e74c3c !important;
+}
+
+.logout-button:hover {
+  background: rgba(231, 76, 60, 0.1) !important;
+}
+
+/* Auth Links Styles */
+.auth-link {
+  background: transparent;
+  border: 2px solid #764ba2;
+  color: #764ba2;
+}
+
+.auth-link:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.auth-link.register {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.auth-link.register:hover {
+  opacity: 0.9;
+}
+
+.account-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(118, 75, 162, 0.08);
+}
+
+.account-btn:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.15);
+}
+
+.account-link {
+  color: #764ba2;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.account-link:hover, .account-link.active {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
 }
@@ -68,11 +210,16 @@
     gap: 0.5rem;
     width: 100%;
   }
-  .navbar-links a {
+  .navbar-links a, .user-profile {
     width: 100%;
     min-width: 0;
     font-size: 1rem;
     padding: 0.75rem 0.5rem;
     box-sizing: border-box;
+  }
+  .dropdown-menu {
+    position: static;
+    width: 100%;
+    box-shadow: none;
   }
 } 

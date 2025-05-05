@@ -1,0 +1,35 @@
+.account-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.08);
+  padding: 2.5rem 2rem;
+}
+
+.account-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #764ba2;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.account-section {
+  margin-bottom: 2.5rem;
+}
+
+.account-section h2 {
+  color: #667eea;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.placeholder {
+  color: #aaa;
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+} 

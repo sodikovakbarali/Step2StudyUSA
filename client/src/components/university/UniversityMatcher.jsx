@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/university/UniversityMatcher.css';
 
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80'; // University campus
+
 const UniversityMatcher = () => {
   const [filters, setFilters] = useState({
     location: '',
@@ -94,139 +96,146 @@ const UniversityMatcher = () => {
   };
 
   return (
-    <div className="matcher-container">
-      <h1>Find Your Perfect University Match</h1>
-
-      <div className="filters-section">
-        <h2>Filter Options</h2>
-        <div className="filters-grid">
-          <div className="filter-group">
-            <label htmlFor="location">Location</label>
-            <select
-              id="location"
-              name="location"
-              value={filters.location}
-              onChange={handleFilterChange}
-            >
-              <option value="">Any Location</option>
-              {locations.map(location => (
-                <option key={location} value={location}>{location}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="academicLevel">Academic Level</label>
-            <select
-              id="academicLevel"
-              name="academicLevel"
-              value={filters.academicLevel}
-              onChange={handleFilterChange}
-            >
-              <option value="">Any Level</option>
-              {academicLevels.map(level => (
-                <option key={level} value={level}>{level}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="fieldOfStudy">Field of Study</label>
-            <select
-              id="fieldOfStudy"
-              name="fieldOfStudy"
-              value={filters.fieldOfStudy}
-              onChange={handleFilterChange}
-            >
-              <option value="">Any Field</option>
-              {fieldsOfStudy.map(field => (
-                <option key={field} value={field}>{field}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="tuitionRange">Tuition Range</label>
-            <select
-              id="tuitionRange"
-              name="tuitionRange"
-              value={filters.tuitionRange}
-              onChange={handleFilterChange}
-            >
-              <option value="">Any Range</option>
-              {tuitionRanges.map(range => (
-                <option key={range} value={range}>{range}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="size">University Size</label>
-            <select
-              id="size"
-              name="size"
-              value={filters.size}
-              onChange={handleFilterChange}
-            >
-              <option value="">Any Size</option>
-              {sizes.map(size => (
-                <option key={size} value={size}>{size}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label htmlFor="ranking">Ranking</label>
-            <select
-              id="ranking"
-              name="ranking"
-              value={filters.ranking}
-              onChange={handleFilterChange}
-            >
-              <option value="">Any Ranking</option>
-              {rankings.map(ranking => (
-                <option key={ranking} value={ranking}>{ranking}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="filter-buttons">
-          <button onClick={applyFilters} className="apply-button">Apply Filters</button>
-          <button onClick={resetFilters} className="reset-button">Reset Filters</button>
+    <div className="matcher-page">
+      <div className="matcher-hero" style={{ backgroundImage: `url(${HERO_IMAGE})` }}>
+        <div className="matcher-hero-overlay" />
+        <div className="matcher-hero-content">
+          <h1>Find Your Perfect University Match</h1>
         </div>
       </div>
 
-      <div className="results-section">
-        <h2>Matching Universities</h2>
-        {isLoading ? (
-          <div className="loading">Loading universities...</div>
-        ) : filteredUniversities.length > 0 ? (
-          <div className="universities-grid">
-            {filteredUniversities.map(university => (
-              <div key={university.id} className="university-card">
-                <h3>{university.name}</h3>
-                <div className="match-score">
-                  Match Score: {university.matchScore}%
-                </div>
-                <div className="university-details">
-                  <p><strong>Location:</strong> {university.location}</p>
-                  <p><strong>Tuition:</strong> {university.tuition}</p>
-                  <p><strong>Size:</strong> {university.size}</p>
-                  <p><strong>Ranking:</strong> {university.ranking}</p>
-                </div>
-                <div className="university-actions">
-                  <button className="view-details-button">View Details</button>
-                  <button className="save-button">Save</button>
-                </div>
-              </div>
-            ))}
+      <div className="matcher-container">
+        <div className="filters-section">
+          <h2>Filter Options</h2>
+          <div className="filters-grid">
+            <div className="filter-group">
+              <label htmlFor="location"><i className="fas fa-globe-americas filter-icon"></i> Location</label>
+              <select
+                id="location"
+                name="location"
+                value={filters.location}
+                onChange={handleFilterChange}
+              >
+                <option value="">Any Location</option>
+                {locations.map(location => (
+                  <option key={location} value={location}>{location}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="academicLevel"><i className="fas fa-user-graduate filter-icon"></i> Academic Level</label>
+              <select
+                id="academicLevel"
+                name="academicLevel"
+                value={filters.academicLevel}
+                onChange={handleFilterChange}
+              >
+                <option value="">Any Level</option>
+                {academicLevels.map(level => (
+                  <option key={level} value={level}>{level}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="fieldOfStudy"><i className="fas fa-book filter-icon"></i> Field of Study</label>
+              <select
+                id="fieldOfStudy"
+                name="fieldOfStudy"
+                value={filters.fieldOfStudy}
+                onChange={handleFilterChange}
+              >
+                <option value="">Any Field</option>
+                {fieldsOfStudy.map(field => (
+                  <option key={field} value={field}>{field}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="tuitionRange"><i className="fas fa-dollar-sign filter-icon"></i> Tuition Range</label>
+              <select
+                id="tuitionRange"
+                name="tuitionRange"
+                value={filters.tuitionRange}
+                onChange={handleFilterChange}
+              >
+                <option value="">Any Range</option>
+                {tuitionRanges.map(range => (
+                  <option key={range} value={range}>{range}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="size"><i className="fas fa-university filter-icon"></i> University Size</label>
+              <select
+                id="size"
+                name="size"
+                value={filters.size}
+                onChange={handleFilterChange}
+              >
+                <option value="">Any Size</option>
+                {sizes.map(size => (
+                  <option key={size} value={size}>{size}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="ranking"><i className="fas fa-trophy filter-icon"></i> Ranking</label>
+              <select
+                id="ranking"
+                name="ranking"
+                value={filters.ranking}
+                onChange={handleFilterChange}
+              >
+                <option value="">Any Ranking</option>
+                {rankings.map(ranking => (
+                  <option key={ranking} value={ranking}>{ranking}</option>
+                ))}
+              </select>
+            </div>
           </div>
-        ) : (
-          <div className="no-results">
-            No universities match your current filters. Try adjusting your criteria.
+
+          <div className="filter-buttons">
+            <button onClick={applyFilters} className="apply-button">Apply Filters</button>
+            <button onClick={resetFilters} className="reset-button">Reset Filters</button>
           </div>
-        )}
+        </div>
+
+        <div className="results-section results-bg">
+          <h2>Matching Universities</h2>
+          {isLoading ? (
+            <div className="loading">Loading universities...</div>
+          ) : filteredUniversities.length > 0 ? (
+            <div className="universities-grid">
+              {filteredUniversities.map(university => (
+                <div key={university.id} className="university-card">
+                  <h3>{university.name}</h3>
+                  <div className="match-score">
+                    Match Score: {university.matchScore}%
+                  </div>
+                  <div className="university-details">
+                    <p><strong>Location:</strong> {university.location}</p>
+                    <p><strong>Tuition:</strong> {university.tuition}</p>
+                    <p><strong>Size:</strong> {university.size}</p>
+                    <p><strong>Ranking:</strong> {university.ranking}</p>
+                  </div>
+                  <div className="university-actions">
+                    <button className="view-details-button">View Details</button>
+                    <button className="save-button">Save</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="no-results">
+              No universities match your current filters. Try adjusting your criteria.
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
