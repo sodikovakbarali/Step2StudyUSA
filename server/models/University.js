@@ -1,46 +1,59 @@
 const mongoose = require('mongoose');
 
 const UniversitySchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true
+  },
   name: {
     type: String,
     required: true
   },
-  location: {
-    type: String,
-    required: true
+  city: {
+    type: String
   },
-  description: {
-    type: String,
-    required: true
+  state: {
+    type: String
   },
-  academicLevels: [{
-    type: String,
-    required: true
-  }],
-  fieldsOfStudy: [{
-    type: String,
-    required: true
-  }],
-  tuition: {
-    type: Number,
-    required: true
+  zip: {
+    type: String
   },
-  size: {
-    type: String,
-    required: true
+  schoolType: {
+    type: String
   },
-  ranking: {
+  website: {
+    type: String
+  },
+  studentSize: {
     type: Number
   },
-  requirements: {
-    gpa: Number,
-    satScore: Number,
-    ieltsScore: Number
+  admissionRate: {
+    type: Number
   },
-  scholarships: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Scholarship'
+  tuition: {
+    inState: Number,
+    outOfState: Number
+  },
+  completionRate: {
+    type: Number
+  },
+  retentionRate: {
+    type: Number
+  },
+  earnings: {
+    median: Number,
+    mean: Number
+  },
+  programs: [{
+    name: String,
+    level: String,
+    cipCode: String
   }],
+  location: {
+    lat: Number,
+    lon: Number
+  },
   date: {
     type: Date,
     default: Date.now
