@@ -32,7 +32,7 @@ const Navbar = () => {
         <Link to="/forum">Forum</Link>
         <Link to="#" className="account-link" onClick={handleAccountClick}>Account</Link>
         {isAuthenticated ? (
-          <div className="user-menu">
+          <div className="user-menu" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div 
               className="user-profile" 
               onClick={() => setShowDropdown(!showDropdown)}
@@ -42,6 +42,7 @@ const Navbar = () => {
                 <i className="fas fa-user"></i>
               </div>
             </div>
+            <button onClick={handleLogout} className="auth-link logout-button" style={{ marginLeft: '0.5rem' }}>Logout</button>
             {showDropdown && (
               <div className="dropdown-menu">
                 <Link to="/dashboard" onClick={() => setShowDropdown(false)}>
@@ -50,9 +51,6 @@ const Navbar = () => {
                 <Link to="/profile" onClick={() => setShowDropdown(false)}>
                   <i className="fas fa-user-circle"></i> Profile
                 </Link>
-                <button onClick={handleLogout} className="logout-button">
-                  <i className="fas fa-sign-out-alt"></i> Logout
-                </button>
               </div>
             )}
           </div>

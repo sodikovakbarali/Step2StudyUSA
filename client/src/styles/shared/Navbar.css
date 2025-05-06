@@ -1,7 +1,7 @@
 .navbar {
-  width: 100vw;
+  width: 100%;
   min-width: 0;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   background: #fff;
   display: flex;
   align-items: center;
@@ -51,6 +51,9 @@
 
 /* User Menu Styles */
 .user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   position: relative;
 }
 
@@ -117,11 +120,23 @@
 }
 
 .logout-button {
-  color: #e74c3c !important;
+  color: #764ba2 !important;
+  border: 2px solid #764ba2;
+  background: transparent;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-left: 0.5rem;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
 .logout-button:hover {
-  background: rgba(231, 76, 60, 0.1) !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff !important;
+  border-color: transparent;
 }
 
 /* Auth Links Styles */
@@ -193,6 +208,9 @@
   .navbar-links {
     gap: 1rem;
   }
+  .user-menu {
+    gap: 0.25rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -210,12 +228,17 @@
     gap: 0.5rem;
     width: 100%;
   }
-  .navbar-links a, .user-profile {
+  .navbar-links a, .user-profile, .logout-button {
     width: 100%;
     min-width: 0;
     font-size: 1rem;
     padding: 0.75rem 0.5rem;
     box-sizing: border-box;
+    margin-left: 0;
+  }
+  .user-menu {
+    width: 100%;
+    justify-content: flex-start;
   }
   .dropdown-menu {
     position: static;

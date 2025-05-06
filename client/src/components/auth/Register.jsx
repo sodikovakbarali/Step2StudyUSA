@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/auth/Register.css';
 import '../../styles/shared/Headings.css';
+import { useAuth } from '../../context/AuthContext';
 
 const Register = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -83,13 +85,52 @@ const Register = () => {
     if (!validateForm()) return;
 
     setIsLoading(true);
+    setErrors({}); // Clear previous errors
+
     try {
-      // TODO: Replace with actual API call
-      // const response = await registerUser(formData);
-      // handle successful registration
+      console.log('Sending registration request:', {
+        name: formData.name,
+        email: formData.email,
+        academicLevel: formData.academicLevel,
+        interests: formData.interests
+      });
+
+      const response = await fetch('http://localhost:5001/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          academicLevel: formData.academicLevel,
+          interests: formData.interests,
+        }),
+        credentials: 'include'
+      });
+
+      const data = await response.json();
+      console.log('Registration response:', data);
+
+      if (!response.ok) {
+        throw new Error(data.msg || data.error || 'Registration failed');
+      }
+
+      // Store the token and user data
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      // Update auth context
+      await login(data.token);
+      
+      console.log('Registration successful, redirecting to dashboard...');
       navigate('/dashboard');
     } catch (error) {
-      setErrors({ submit: error.message });
+      console.error('Registration error:', error);
+      setErrors({ 
+        submit: error.message || 'An unexpected error occurred during registration. Please try again.' 
+      });
     } finally {
       setIsLoading(false);
     }

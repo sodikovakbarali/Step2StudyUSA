@@ -6,20 +6,39 @@ const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
 
+// Check required environment variables
+const requiredEnvVars = ['JWT_SECRET', 'MONGODB_URI'];
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars.join(', '));
+  console.error('Please create a .env file with the required variables.');
+  process.exit(1);
+}
+
 const app = express();
 const server = http.createServer(app);
+
+// CORS configuration
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
+// Socket.io configuration with CORS
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"]
-  }
+  cors: corsOptions
 });
 
 // Connect Database
 connectDB();
 
 // Init Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json({ extended: false }));
 
 // Define Routes
@@ -37,6 +56,9 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log('Environment:', process.env.NODE_ENV);
+});

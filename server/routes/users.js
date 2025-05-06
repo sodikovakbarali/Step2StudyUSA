@@ -4,22 +4,29 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// @route   POST api/users/register
-// @desc    Register user
-// @access  Public
+// Verify JWT secret is available
+if (!process.env.JWT_SECRET) {
+  console.error('JWT_SECRET is not defined in environment variables');
+  process.exit(1);
+}
+
 router.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, academicLevel, interests } = req.body;
+  console.log('Received registration request:', { name, email, academicLevel, interests });
 
   // Basic validation
-  if (!name || !email || !password) {
-    return res.status(400).json({ msg: 'Please enter all fields' });
+  if (!name || !email || !password || !academicLevel || !interests || !Array.isArray(interests) || interests.length === 0) {
+    console.log('Validation failed:', { name, email, academicLevel, interests });
+    return res.status(400).json({ msg: 'Please enter all required fields and select at least one interest.' });
   }
 
   if (password.length < 6) {
+    console.log('Password too short');
     return res.status(400).json({ msg: 'Password must be at least 6 characters' });
   }
 
   if (!email.includes('@')) {
+    console.log('Invalid email');
     return res.status(400).json({ msg: 'Please enter a valid email' });
   }
 
@@ -27,6 +34,7 @@ router.post('/register', async (req, res) => {
     // Check if user exists
     let user = await User.findOne({ email });
     if (user) {
+      console.log('User already exists:', email);
       return res.status(400).json({ msg: 'User already exists' });
     }
 
@@ -34,35 +42,66 @@ router.post('/register', async (req, res) => {
     user = new User({
       name,
       email,
-      password
+      password,
+      academicLevel,
+      interests
     });
 
-    // Encrypt password
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
 
-    // Save user
-    await user.save();
+    // Save user to database
+    try {
+      await user.save();
+      console.log('User saved successfully:', { id: user.id, email: user.email });
+    } catch (saveError) {
+      console.error('Error saving user:', saveError);
+      return res.status(500).json({ 
+        msg: 'Error saving user to database',
+        error: saveError.message 
+      });
+    }
 
-    // Return jsonwebtoken
-    const payload = {
-      user: {
-        id: user.id
-      }
-    };
+    // Generate JWT token
+    try {
+      const payload = {
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name
+        }
+      };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '5 days' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+      const token = jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: '5 days' }
+      );
+
+      console.log('JWT token generated successfully');
+      res.json({ 
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          academicLevel: user.academicLevel
+        }
+      });
+    } catch (tokenError) {
+      console.error('Error generating JWT token:', tokenError);
+      return res.status(500).json({ 
+        msg: 'Error generating authentication token',
+        error: tokenError.message 
+      });
+    }
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    console.error('Server error during registration:', err);
+    res.status(500).json({ 
+      msg: 'Server error during registration',
+      error: err.message 
+    });
   }
 });
 
@@ -108,7 +147,7 @@ router.post('/login', async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
