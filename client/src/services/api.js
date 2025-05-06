@@ -4,6 +4,11 @@ const API_URL = 'http://localhost:4500/api';
 const COLLEGE_SCORECARD_API_URL = 'https://api.data.gov/ed/collegescorecard/v1/schools';
 const COLLEGE_SCORECARD_API_KEY = 'XtZXOnicobSWJU7EVskCxsFg9btNaZZUEhgoDsfr';
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return token ? { 'x-auth-token': token } : {};
+};
+
 export const api = {
   // User related
   registerUser: (userData) => axios.post(`${API_URL}/users/register`, userData),
@@ -20,6 +25,12 @@ export const api = {
       ...params
     }
   }),
+
+  // Save university to user favorites
+  saveUniversity: (university) => axios.post(`${API_URL}/universities/save`, university, { headers: getAuthHeaders() }),
+
+  // Get user profile
+  getProfile: () => axios.get(`${API_URL}/users/profile`, { headers: getAuthHeaders() }),
 
   // Forum related
   getPosts: () => axios.get(`${API_URL}/forum`),

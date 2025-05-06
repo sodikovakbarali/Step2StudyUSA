@@ -23,8 +23,12 @@ const UserSchema = new mongoose.Schema({
     default: []
   },
   savedUniversities: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'University'
+    id: String, // College Scorecard ID
+    name: String,
+    state: String,
+    city: String,
+    website: String
+    // Add more fields if needed
   }],
   preferences: {
     location: String,

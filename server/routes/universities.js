@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const User = require('../models/User');
+const University = require('../models/University');
 
 // @route   GET api/universities
 // @desc    Get all universities
@@ -78,6 +81,27 @@ router.delete('/:id', async (req, res) => {
     }
     await university.remove();
     res.json({ msg: 'University removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   POST api/universities/save
+// @desc    Save a university to the user's favorites
+// @access  Private
+router.post('/save', auth, async (req, res) => {
+  try {
+    const { id, name, state, city, website } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+    // Prevent duplicates
+    if (user.savedUniversities.some(u => u.id === id)) {
+      return res.status(400).json({ msg: 'University already saved' });
+    }
+    user.savedUniversities.push({ id, name, state, city, website });
+    await user.save();
+    res.json(user.savedUniversities);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

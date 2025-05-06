@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const auth = require('../middleware/auth');
 
 // Verify JWT secret is available
 if (!process.env.JWT_SECRET) {
@@ -57,9 +58,9 @@ router.post('/register', async (req, res) => {
       console.log('User saved successfully:', { id: user.id, email: user.email });
     } catch (saveError) {
       console.error('Error saving user:', saveError);
-      return res.status(500).json({ 
+      return res.status(500).json({
         msg: 'Error saving user to database',
-        error: saveError.message 
+        error: saveError.message
       });
     }
 
@@ -80,7 +81,7 @@ router.post('/register', async (req, res) => {
       );
 
       console.log('JWT token generated successfully');
-      res.json({ 
+      res.json({
         token,
         user: {
           id: user.id,
@@ -91,16 +92,16 @@ router.post('/register', async (req, res) => {
       });
     } catch (tokenError) {
       console.error('Error generating JWT token:', tokenError);
-      return res.status(500).json({ 
+      return res.status(500).json({
         msg: 'Error generating authentication token',
-        error: tokenError.message 
+        error: tokenError.message
       });
     }
   } catch (err) {
     console.error('Server error during registration:', err);
-    res.status(500).json({ 
+    res.status(500).json({
       msg: 'Server error during registration',
-      error: err.message 
+      error: err.message
     });
   }
 });
@@ -148,6 +149,20 @@ router.post('/login', async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// @route   GET api/users/profile
+// @desc    Get current user's profile
+// @access  Private
+router.get('/profile', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
 });
 

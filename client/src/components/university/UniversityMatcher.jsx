@@ -8,7 +8,6 @@ const UniversityMatcher = () => {
   const [filters, setFilters] = useState({
     state: '',
     schoolType: '',
-    program: '',
     tuitionRange: '',
     size: '',
     admissionRate: ''
@@ -18,6 +17,8 @@ const UniversityMatcher = () => {
   const [filteredUniversities, setFilteredUniversities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [saveStatus, setSaveStatus] = useState({});
+  const [savedUniversities, setSavedUniversities] = useState([]);
 
   const states = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
@@ -28,13 +29,13 @@ const UniversityMatcher = () => {
   ];
 
   const schoolTypes = ['Public', 'Private', 'For-Profit'];
-  const programs = ['Computer Science', 'Engineering', 'Business', 'Medicine', 'Arts', 'Humanities'];
   const tuitionRanges = ['< $10,000', '$10,000 - $20,000', '$20,000 - $30,000', '> $30,000'];
   const sizes = ['Small (< 5,000)', 'Medium (5,000 - 15,000)', 'Large (> 15,000)'];
   const admissionRates = ['< 20%', '20% - 40%', '40% - 60%', '60% - 80%', '> 80%'];
 
   useEffect(() => {
     fetchUniversities();
+    fetchSavedUniversities();
   }, []);
 
   const fetchUniversities = async () => {
@@ -79,6 +80,21 @@ const UniversityMatcher = () => {
     }
   };
 
+  const fetchSavedUniversities = async () => {
+    try {
+      const res = await api.getProfile();
+      setSavedUniversities(res.data.savedUniversities || []);
+      // Set saveStatus for already saved universities
+      const status = {};
+      (res.data.savedUniversities || []).forEach(u => {
+        status[u.id] = 'saved';
+      });
+      setSaveStatus(status);
+    } catch (err) {
+      // Not logged in or error, ignore
+    }
+  };
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({
@@ -98,10 +114,6 @@ const UniversityMatcher = () => {
               return university.state && university.state.toUpperCase() === value.toUpperCase();
             case 'schoolType':
               return university.schoolType && university.schoolType.toLowerCase() === value.toLowerCase();
-            case 'program':
-              return Array.isArray(university.programs) && university.programs.some(
-                p => p.title && p.title.toLowerCase() === value.toLowerCase()
-              );
             case 'tuitionRange':
               const tuition = university.tuition.inState || university.tuition.outOfState;
               return getTuitionRange(tuition) === value;
@@ -148,12 +160,34 @@ const UniversityMatcher = () => {
     setFilters({
       state: '',
       schoolType: '',
-      program: '',
       tuitionRange: '',
       size: '',
       admissionRate: ''
     });
     setFilteredUniversities(universities);
+  };
+
+  const handleSaveUniversity = async (university) => {
+    setSaveStatus(prev => ({ ...prev, [university.id]: 'saving' }));
+    try {
+      await api.saveUniversity({
+        id: university.id,
+        name: university.name,
+        state: university.state,
+        city: university.city,
+        website: university.website
+      });
+      setSaveStatus(prev => ({ ...prev, [university.id]: 'saved' }));
+      setSavedUniversities(prev => ([...prev, {
+        id: university.id,
+        name: university.name,
+        state: university.state,
+        city: university.city,
+        website: university.website
+      }]));
+    } catch (err) {
+      setSaveStatus(prev => ({ ...prev, [university.id]: 'error' }));
+    }
   };
 
   return (
@@ -195,21 +229,6 @@ const UniversityMatcher = () => {
                 <option value="">Any Type</option>
                 {schoolTypes.map(type => (
                   <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label htmlFor="program"><i className="fas fa-book filter-icon"></i> Program</label>
-              <select
-                id="program"
-                name="program"
-                value={filters.program}
-                onChange={handleFilterChange}
-              >
-                <option value="">Any Program</option>
-                {programs.map(program => (
-                  <option key={program} value={program}>{program}</option>
                 ))}
               </select>
             </div>
@@ -274,29 +293,37 @@ const UniversityMatcher = () => {
             <div className="error">{error}</div>
           ) : filteredUniversities.length > 0 ? (
             <div className="universities-grid">
-              {filteredUniversities.map(university => (
-                <div key={university.id} className="university-card">
-                  <h3>{university.name}</h3>
-                  <div className="university-details">
-                    <p><strong>Location:</strong> {university.city}, {university.state}</p>
-                    <p><strong>Type:</strong> {university.schoolType}</p>
-                    <p><strong>Size:</strong> {university.studentSize?.toLocaleString()} students</p>
-                    <p><strong>Admission Rate:</strong> {(university.admissionRate * 100).toFixed(1)}%</p>
-                    <p><strong>In-State Tuition:</strong> ${university.tuition.inState?.toLocaleString()}</p>
-                    <p><strong>Out-of-State Tuition:</strong> ${university.tuition.outOfState?.toLocaleString()}</p>
-                    <p><strong>Completion Rate:</strong> {(university.completionRate * 100).toFixed(1)}%</p>
-                    {university.earnings.median && (
-                      <p><strong>Median Earnings (10 years):</strong> ${university.earnings.median.toLocaleString()}</p>
-                    )}
+              {filteredUniversities.map(university => {
+                const isSaved = saveStatus[university.id] === 'saved';
+                return (
+                  <div key={university.id} className="university-card">
+                    <h3>{university.name}</h3>
+                    <div className="university-details">
+                      <p><strong>Location:</strong> {university.city}, {university.state}</p>
+                      <p><strong>Type:</strong> {university.schoolType}</p>
+                      <p><strong>Size:</strong> {university.studentSize?.toLocaleString()} students</p>
+                      <p><strong>Admission Rate:</strong> {(university.admissionRate * 100).toFixed(1)}%</p>
+                      <p><strong>In-State Tuition:</strong> ${university.tuition.inState?.toLocaleString()}</p>
+                      <p><strong>Out-of-State Tuition:</strong> ${university.tuition.outOfState?.toLocaleString()}</p>
+                      <p><strong>Completion Rate:</strong> {(university.completionRate * 100).toFixed(1)}%</p>
+                      {university.earnings.median && (
+                        <p><strong>Median Earnings (10 years):</strong> ${university.earnings.median.toLocaleString()}</p>
+                      )}
+                    </div>
+                    <div className="university-actions">
+                      {university.website ? (
+                        <a href={university.website.startsWith('http') ? university.website : `https://${university.website}`}
+                           target="_blank" rel="noopener noreferrer" className="view-details-button">
+                          Visit Website
+                        </a>
+                      ) : null}
+                      <button className="save-button" onClick={() => handleSaveUniversity(university)} disabled={isSaved || saveStatus[university.id] === 'saving'}>
+                        {isSaved ? 'Saved' : saveStatus[university.id] === 'saving' ? 'Saving...' : 'Save'}
+                      </button>
+                    </div>
                   </div>
-                  <div className="university-actions">
-                    <a href={university.website} target="_blank" rel="noopener noreferrer" className="view-details-button">
-                      Visit Website
-                    </a>
-                    <button className="save-button">Save</button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="no-results">

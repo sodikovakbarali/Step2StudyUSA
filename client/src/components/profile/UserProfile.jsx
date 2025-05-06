@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/profile/UserProfile.css';
 import '../../styles/shared/Headings.css';
+import { api } from '../../services/api';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({
@@ -21,25 +22,19 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Replace with actual API call
-    const mockUserData = {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      academicLevel: 'Undergraduate',
-      interests: ['Computer Science', 'Engineering'],
-      savedUniversities: [
-        { id: 1, name: 'Tech University', matchScore: 95 },
-        { id: 2, name: 'Global University', matchScore: 88 }
-      ],
-      preferences: {
-        location: 'North America',
-        tuitionRange: '$20,000 - $30,000',
-        size: 'Medium (5,000 - 15,000)',
-        ranking: 'Top 50'
+    const fetchProfile = async () => {
+      setIsLoading(true);
+      try {
+        // Fetch user profile from backend
+        const res = await api.getProfile();
+        setUserData(res.data);
+      } catch (error) {
+        console.error('Error loading profile:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
-    setUserData(mockUserData);
-    setIsLoading(false);
+    fetchProfile();
   }, []);
 
   const handleInputChange = (e) => {
@@ -221,13 +216,23 @@ const UserProfile = () => {
       <div className="profile-section">
         <h2>Saved Universities</h2>
         <div className="saved-universities">
-          {userData.savedUniversities.map(university => (
-            <div key={university.id} className="saved-university-card">
-              <h3>{university.name}</h3>
-              <p>Match Score: {university.matchScore}%</p>
-              <button className="remove-button">Remove</button>
-            </div>
-          ))}
+          {userData.savedUniversities && userData.savedUniversities.length > 0 ? (
+            userData.savedUniversities.map(university => (
+              <div key={university.id} className="saved-university-card">
+                <h3>{university.name}</h3>
+                <p><strong>Location:</strong> {university.city}, {university.state}</p>
+                {university.website && (
+                  <a href={university.website.startsWith('http') ? university.website : `https://${university.website}`}
+                     target="_blank" rel="noopener noreferrer" className="view-details-button">
+                    Visit Website
+                  </a>
+                )}
+                {/* Add remove button if needed */}
+              </div>
+            ))
+          ) : (
+            <div className="placeholder">You haven't saved any universities yet.</div>
+          )}
         </div>
       </div>
 
